@@ -4,11 +4,21 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.concurrent.Executor;
 
 import javax.swing.JOptionPane;
 
 public class TestServerListener extends Thread {
 	ServerSocket serverSocket;
+	public static final Executor exec = new Executor() {
+		
+		@Override
+		public void execute(Runnable command) {
+			// TODO Auto-generated method stub
+			new Thread(command).start();
+			ChatRoom.init().add(command);
+		}
+	};
 	public void end(){
 		try {
 			ChatRoom.init().stopserver();
@@ -47,9 +57,13 @@ public class TestServerListener extends Thread {
 				
 			//	count++;
 				JOptionPane.showMessageDialog(null, "有陌生人來訪");
-				chatsocket newchat=new chatsocket(chat);
-				newchat.start();
-				ChatRoom.init().add(newchat);
+//				chatsocket newchat=new chatsocket(chat);
+//				newchat.start();
+//				ChatRoom.init().add(newchat);
+				//效率不高，使用线程池
+				chatsocket newchat = new chatsocket(chat);
+				exec.execute(newchat);
+				
 				
 		}
 		} catch (UnknownHostException e) {

@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 
-public class chatsocket extends Thread{
+public class chatsocket implements Runnable{
 	
 	private Socket socket;
 	private String id="";

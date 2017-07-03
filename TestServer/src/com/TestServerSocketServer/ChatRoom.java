@@ -55,8 +55,8 @@ public class ChatRoom {
 
  	
  	
-	public void add(chatsocket newmember){
-		roommate.add(newmember);
+	public void add(Runnable command){
+		roommate.add((chatsocket)command);
 	}
 	
 	public void publish(chatsocket name,String message){
